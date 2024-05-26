@@ -4,6 +4,8 @@
 
 做了一些修改，以在Blender4运行
 
+目前只能实现单帧渲染，尚不能实现随意拖动数据
+
 ## Introduction
 Special-Relativistic Polygon Rendering is a straightforward method to show what 
 an observer moving with a velocity close to the speed of light would see.
