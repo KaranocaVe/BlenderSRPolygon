@@ -2,7 +2,7 @@
 # Special-Relativistic Polygon Rendering with Blender
 
 
-##做了一些修改，以在Blender4运行
+做了一些修改，以在Blender4运行
 
 ## Introduction
 Special-Relativistic Polygon Rendering is a straightforward method to show what 
