@@ -6,6 +6,8 @@
 
 目前只能实现单帧渲染，尚不能实现随意拖动数据
 
+正在努力实现多物体运算与完全函数化
+
 ## Introduction
 Special-Relativistic Polygon Rendering is a straightforward method to show what 
 an observer moving with a velocity close to the speed of light would see.
