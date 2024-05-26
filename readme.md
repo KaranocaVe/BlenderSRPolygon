@@ -1,5 +1,5 @@
 
-# Special-Relativistic Polygon Rendering with Blender
+# 使用 Blender 进行狭义相对论多边形渲染
 
 
 做了一些修改，以在Blender4运行
