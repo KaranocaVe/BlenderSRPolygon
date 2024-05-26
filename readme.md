@@ -2,6 +2,8 @@
 # Special-Relativistic Polygon Rendering with Blender
 
 
+##做了一些修改，以在Blender4运行
+
 ## Introduction
 Special-Relativistic Polygon Rendering is a straightforward method to show what 
 an observer moving with a velocity close to the speed of light would see.
