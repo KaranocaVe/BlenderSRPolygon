@@ -50,9 +50,7 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
             return {'FINISHED'}
 
         # Selected object
-        objraw = context.selected_objects[0]
-
-        obj = objraw.copy()
+        obj = context.selected_objects[0]
 
         bpy.context.collection.objects.link(obj)
 
