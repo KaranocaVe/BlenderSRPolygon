@@ -27,7 +27,7 @@
 
 bl_info = {
     "name": "SR Polygon Transformation",
-    "author": "Thomas Mueller""KaranocaVe",
+    "author": "Thomas Mueller"",""KaranocaVe",
     "version": (0, 0, 2),
     "blender": (4, 0, 0),
     "description": "Special-relativistic polygon transformation of mesh object.",
