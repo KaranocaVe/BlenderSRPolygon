@@ -1,3 +1,39 @@
+# ----------------------------------------------------------------------------
+#  SRPolygonTransform (c) by Thomas Mueller
+#
+#    This experimental Blender add-on implements the polygon-rendering
+#    method for special-relativistic visualization. It transforms a mesh
+#    object to show what an observer moving with a velocity close to
+#    the speed of light would see. However, only the geometric distortion is
+#    taken into account and neither the Doppler effect nor any illumination
+#    or shadows will be handled correctly.
+#
+#    See e.g. "A Survey of Visualization Methods for Special Relativity"
+#    by Daniel Weiskopf for a brief description:
+#     http://drops.dagstuhl.de/opus/volltexte/2010/2711/pdf/20.pdf
+#
+#    A more detailed explanation can be found in the book
+#    "Spezielle und allgemeine Relativitätstheorie - Grundlagen, Anwendungen
+#    in Astrophysik und Kosmologie sowie relativistische Visualisierung"
+#    by Boblest, Mueller, and Wunner; DOI: 10.1007/978-3-662-47767-0
+#
+#
+#  SRPolygonTransform is licensed under a Creative Commons Attribution-
+#  NonCommercial-ShareAlike 4.0 International License.
+#
+#  A copy of the license can be found at
+#   <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
+# ----------------------------------------------------------------------------
+
+bl_info = {
+    "name": "SR Polygon Transformation",
+    "author": "Thomas Mueller""KaranocaVe",
+    "version": (0, 0, 2),
+    "blender": (4, 0, 0),
+    "description": "Special-relativistic polygon transformation of mesh object.",
+    "category": "Object"
+}
+
 import bpy
 from mathutils import Vector
 import numpy as np
@@ -50,11 +86,7 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
             return {'FINISHED'}
 
         # Selected object
-        objraw = context.selected_objects[0]
-
-        obj = objraw.copy()
-
-        bpy.context.collection.objects.link(obj)
+        obj = context.selected_objects[0]
 
         if obj.type != 'MESH':
             self.report({'INFO'}, "Selected object has to be a mesh-object!")
@@ -115,7 +147,7 @@ class ObjectSRPolygonTransformPanel(bpy.types.Panel):
     bl_idname = "OBJECT_PT_sr_polygon_transform"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Tool'
+    bl_category = 'Tools'
 
     def draw(self, context):
         layout = self.layout
@@ -125,25 +157,19 @@ class ObjectSRPolygonTransformPanel(bpy.types.Panel):
         layout.operator("object.sr_polygon_transform")
 
 
-def updatefunc(self, context):
-    ObjectSRPolygonTransform.execute(self, context)
-
-
 def register():
     bpy.utils.register_class(ObjectSRPolygonTransform)
     bpy.utils.register_class(ObjectSRPolygonTransformPanel)
     bpy.types.Scene.t_obs = bpy.props.FloatProperty(
         name="Observation Time",
         default=0.0,
-        step=1,
-        update=updatefunc
+        step=1
     )
     bpy.types.Scene.beta_xyz = bpy.props.FloatVectorProperty(
         name="Velocity",
         default=(0.5, 0.0, 0.0),
         subtype="DIRECTION",
-        unit='LENGTH',
-        update=updatefunc
+        unit='LENGTH'
     )
 
 
