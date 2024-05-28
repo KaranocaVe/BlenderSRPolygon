@@ -45,7 +45,7 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
         狭义相对论多边形变换
         """
     bl_idname = "object.sr_polygon_transform"
-    bl_label = "SR Polygon Transformation Func"
+    bl_label = "狭义相对论多边形变换"
 
     def kdelta(self, a, b):
         """克罗内克 δ"""
@@ -59,7 +59,7 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
                 beta：归一化速度 beta = v/c其中 v 是物体速度，c是光速。
 
             返回值:
-                洛伦兹变换矩
+                洛伦兹变换矩阵
             """
         gamma = 1 / np.sqrt(1 - np.dot(beta, beta))
         Lambda = np.identity(4)
@@ -74,7 +74,7 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
     def evalLT(self, context):
         scene = context.scene
 
-        # Active camera within the scene
+        # 场景中的活动摄像机
         cam = scene.camera
 
         if len(context.selected_objects) == 0:
@@ -85,51 +85,48 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
             self.report({'INFO'}, "Select only one object!")
             return {'FINISHED'}
 
-        # Selected object
+        # 选择的对象
         obj = context.selected_objects[0]
 
         if obj.type != 'MESH':
             self.report({'INFO'}, "Selected object has to be a mesh-object!")
             return {'FINISHED'}
 
-        # Scaled velocity
+        # 归一化速度
         #beta = np.array([self.beta_x,0,0])
         beta = np.array(scene.beta_xyz)
 
-        # Lorentz transformation matrix for beta
+        # 对于beta的洛伦兹变换矩阵
         L = self.lorentzMatrix(beta)
 
-        # Inverse Lorentz transformation matrix
+        # 反转洛伦兹变换矩阵
         invL = inv(L)
 
-        # Observer is located at origin within its own reference frame
+        # 观察者位于其自身参考系的原点
         obs = np.array([scene.t_obs, 0, 0, 0])
 
-        # The observer's reference frame has an offset to the global frame
+        # 观察者的参考框架相对于全局框架有一个偏移
         a1 = np.append([0], cam.location)
 
-        # The object's reference frame has an offset to the global frame
+        # 物体的参考框架相对于全局框架有一个偏移
         a2 = np.append([0], obj.location)
 
-        # Transform observer into the object's rest frame
+        # 将观察者变换到物体的静止参考系
         obs2 = L.dot(obs + a1 - a2)
 
-        # Transform every vertex of the object
+        # 变换对象的每一个顶点
         for v in obj.data.vertices:
-            # intersect observer's backward light cone with the world line
-            # of the vertex
+            # 将观察者的后向光锥与顶点的世界线相交
             dx = np.array(v.co) - obs2[1:]
             delta = np.sqrt(dx.dot(dx))
 
-            # time when light has to be emitted from the vertex point in
-            # order to reach the observer at his/her observation time
+            # 光线需要从顶点发射的时间，以便在观察者的观测时间到达观察者
             tp2 = obs2[0] - delta
 
-            # emission event
+            # 发射事件
             obj2 = np.append([tp2], v.co)
 
-            # transform emission event into the observer's reference frame
-            # here, only the transformation into the global frame is necessary
+            # 将发射事件转换到观察者的参考系中，在这里，只需要转换到全局参考系。
             obj1 = invL.dot(obj2) + 0 * a2
             v.co = Vector(obj1[1:])
 
@@ -143,7 +140,7 @@ class ObjectSRPolygonTransformPanel(bpy.types.Panel):
     """
     狭义相对论多边形变换面板
     """
-    bl_label = "SR Polygon Transform Panel"
+    bl_label = "狭义相对论多边形变换面板"
     bl_idname = "OBJECT_PT_sr_polygon_transform"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
