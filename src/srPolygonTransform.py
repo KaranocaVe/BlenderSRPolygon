@@ -26,11 +26,11 @@
 # ----------------------------------------------------------------------------
 
 bl_info = {
-    "name": "SR Polygon Transformation",
+    "name": "狭义相对论多边形变换",
     "author": "Thomas Mueller"",""KaranocaVe",
     "version": (0, 0, 2),
     "blender": (4, 0, 0),
-    "description": "Special-relativistic polygon transformation of mesh object.",
+    "description": "网格对象的狭义相对论多边形变换。",
     "category": "Object"
 }
 
@@ -42,24 +42,24 @@ from numpy.linalg import inv
 
 class ObjectSRPolygonTransform(bpy.types.Operator):
     """
-        Special-relativistic polygon transformation
+        狭义相对论多边形变换
         """
     bl_idname = "object.sr_polygon_transform"
     bl_label = "SR Polygon Transformation Func"
 
     def kdelta(self, a, b):
-        """Kronecker delta"""
+        """克罗内克 δ"""
         return 1 if a == b else 0
 
     def lorentzMatrix(self, beta):
         """
-            Generate Lorentz transformation matrix depending on beta.
+            洛伦兹变换矩阵依赖于参数beta
 
-            Args:
-                beta: Scaled velocity beta = v/c where c is the speed of light.
+            参数：
+                beta：归一化速度 beta = v/c其中 v 是物体速度，c是光速。
 
-            Return:
-                Lorentz-Transformation matrix
+            返回值:
+                洛伦兹变换矩
             """
         gamma = 1 / np.sqrt(1 - np.dot(beta, beta))
         Lambda = np.identity(4)
@@ -141,7 +141,7 @@ class ObjectSRPolygonTransform(bpy.types.Operator):
 
 class ObjectSRPolygonTransformPanel(bpy.types.Panel):
     """
-    Special-relativistic polygon transformation panel
+    狭义相对论多边形变换面板
     """
     bl_label = "SR Polygon Transform Panel"
     bl_idname = "OBJECT_PT_sr_polygon_transform"
@@ -152,8 +152,8 @@ class ObjectSRPolygonTransformPanel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
-        layout.prop(scene, 't_obs', text="Observation Time")
-        layout.prop(scene, 'beta_xyz', text="Velocity")
+        layout.prop(scene, 't_obs', text="观测时间")
+        layout.prop(scene, 'beta_xyz', text="速度")
         layout.operator("object.sr_polygon_transform")
 
 
@@ -161,12 +161,12 @@ def register():
     bpy.utils.register_class(ObjectSRPolygonTransform)
     bpy.utils.register_class(ObjectSRPolygonTransformPanel)
     bpy.types.Scene.t_obs = bpy.props.FloatProperty(
-        name="Observation Time",
+        name="观测时间",
         default=0.0,
         step=1
     )
     bpy.types.Scene.beta_xyz = bpy.props.FloatVectorProperty(
-        name="Velocity",
+        name="速度",
         default=(0.5, 0.0, 0.0),
         subtype="DIRECTION",
         unit='LENGTH'
