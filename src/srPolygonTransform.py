@@ -159,14 +159,22 @@ def register():
     bpy.utils.register_class(ObjectSRPolygonTransformPanel)
     bpy.types.Scene.t_obs = bpy.props.FloatProperty(
         name="观测时间",
+        min=0.0,
         default=0.0,
+        unit="TIME_ABSOLUTE",
+        description="观测时间",
+        subtype="TIME",
         step=1
     )
     bpy.types.Scene.beta_xyz = bpy.props.FloatVectorProperty(
-        name="速度",
+        name="速度/C",
         default=(0.5, 0.0, 0.0),
-        subtype="DIRECTION",
-        unit='LENGTH'
+        size=3,
+        min=-1.0,
+        max=1.0,
+        subtype="VELOCITY",
+        unit="NONE",
+        description="设置速度为光速的倍数"
     )
 
 
