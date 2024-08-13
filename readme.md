@@ -35,7 +35,7 @@ This is a very brief tutorial on how to use the blender add-on "SRPolygonTransfo
    
 2. Install Add-On:
     - File -> User Preferences -> Add-ons -> "Install Add-on from File..."
-    - Select "srPolygonTransform.py" 
+    - Select "srPolygonTransform[].py", for blender 2.79 and later use "srPolygonTransform2x.py", for blender 4.0 use "srPolygonTransform4x.py"
     - Object -> Select "SR Polygon Transformation"
    
 3. Apply polygon transformation:
